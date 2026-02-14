@@ -1,0 +1,26 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  #Service 1: API FastAPI
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./tourisme-ml:/app/model
+    environment:
+      - ENV=production
+    restart: always
+
+  #Service 2: Frontend React
+  frontend:
+    build:
+      context: ./tourisme-regression
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    restart: always
